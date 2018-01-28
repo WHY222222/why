@@ -36,10 +36,10 @@ routes(app);//路由放到处理表单上方，否则多个请求会报错
 // 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'static/img')));
 
-app.use(require('express-formidable')({
-	uploadDir: path.join(__dirname, 'static/img'),//上传文件目录
-	keepExtensions: true//保留后缀
-}))
+// app.use(require('express-formidable')({
+// 	uploadDir: path.join(__dirname, 'static/img'),//上传文件目录
+// 	keepExtensions: true//保留后缀
+// }))
 
 app.get('/', function(req, res){
 	res.send('index')

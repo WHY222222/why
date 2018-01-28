@@ -31,6 +31,7 @@ module.exports = {
       '/api': {
         target: 'http://localhost:3000',
         //target: 'https://shuma.i7colors.com',
+        //target: 'http://97.64.83.167:3000',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'

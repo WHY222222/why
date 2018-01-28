@@ -42,16 +42,16 @@ Vue.config.productionTip = false
 axios.defaults.timeout = 5000;
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//Post穿餐序列化
-axios.interceptors.request.use((config) => {
-  if(config.method === 'post'){
-    config.data = qs.stringify(config.data);
-  }
-  console.log('post')
-  return config;
-}, (error) => {
-  alert('错误的穿参');
-  return Promise.reject(error);
-})
+// axios.interceptors.request.use((config) => {
+//   if(config.method === 'post'){
+//     config.data = qs.stringify(config.data);
+//   }
+//   console.log('post')
+//   return config;
+// }, (error) => {
+//   alert('错误的穿参');
+//   return Promise.reject(error);
+// })
 axios.defaults.withCredentials = true;
 Vue.prototype.$http = axios;
 

@@ -16,11 +16,10 @@
       id="uploadForm"
       method="post"
       enctype="multipart/form-data"
-      action="/api/signup"
+      action="/api/upload/img"
       target="uploadFrame">
       <p style="margin:10px 0;">上传图片:
-          <input type="text" name="name" value="xiangheng">
-          <input type="file" name="imageFile" multiple="multiple"/>
+          <input type="file" name="avatar" multiple="multiple" id='myImg' ref="myImg" @change="uploadImg"/>
           <input type="submit" id="fileSubmit" value="上传" />
       </p>
   </form>
@@ -40,7 +39,7 @@ export default {
       options: {
           // 可通过 https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js 示例启动服务
           //target: '/api/tshow/uploadPic',
-          target: '/api/signup',
+          target: '/api/upload/img',
           testChunks: false
         },
         attrs: {
@@ -52,14 +51,16 @@ export default {
 
   },
   methods: {
-    selectImg(){
-      let imgFile = document.getElementById('imgLocal').files[0];
-      console.log(imgFile)
-      let formData = new FormData();
-      formData.append('file', imgFile);
-      this.$http.post('/api/tshow/uploadPic',formData,{
-        method: 'post',
-        headers: {'Content-Type': 'multipart/form-data'}
+    uploadImg(){
+      let myImg = document.getElementById('myImg').files;
+      var params = new FormData();
+      params.append('avatar', this.$refs.myImg.files[0]);
+      params.append('picName', 'why');
+      console.log(myImg);
+      this.$http.post('/api/upload/img',params,{
+        'headers': {
+          'Content': 'multipart/form-data'
+        }
       })
       .then(res => {
         console.log(res);
