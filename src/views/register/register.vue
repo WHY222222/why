@@ -12,6 +12,10 @@
       <x-input title="确认密码" v-model="passwordConfirm" placeholder="password confirm" class="register_password"></x-input>
       <x-button @click.native="register">注册</x-button>
     </group>
+    1
+
+
+    <p v-for="text in arr">{{text}}</p>
   </div>
 </template>
 
@@ -22,7 +26,8 @@ export default {
 		return {
 			username: '',
 			password: '',
-			passwordConfirm: ''
+			passwordConfirm: '',
+      arr: []
 		}
 	},
 	components:{
@@ -34,8 +39,22 @@ export default {
 	},
 	mouted() {
 		this.register();
+    this.translate();
 	},
 	methods: {
+    translate(){
+      this.$http.get('/translate')
+        .then(res => {
+          console.log(res);
+          this.arr = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+
+
+    },
+
 		register() {
 			let _this = this;
 			if(!this.username){
@@ -79,7 +98,7 @@ export default {
 			}
 
 
-      this.$http.post('/api/signup',{
+      this.$http.post('/signup',{
         name: _this.username,
         password: _this.password,
         repassword: _this.passwordConfirm

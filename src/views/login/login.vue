@@ -23,6 +23,7 @@
       <p style="width: 100%;height: 40px;border:1px #aaa dashed;" ref="tapP">1</p>
       <p style="width: 100%;height: 40px;border:1px #aaa dashed;" ref="tapP">1</p>
     </div> -->
+    <p v-for="text in arr">{{text}}</p>
   </div>
 </template>
 
@@ -56,13 +57,27 @@ export default {
       touchLeft: 10,
       touchStartPosX: 0,
       touchStartPosY: 0,
+      arr: []
     }
   },
 	mounted() {
     //this.getNode();
     //this.touchEvent();
+    this.translate();
 	},
 	methods: {
+    translate(){
+      this.$http.get('/translate')
+        .then(res => {
+          console.log(res);
+          this.arr = res.data.data;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+
+
+    },
     clickP() {
       console.log('click');
       alert('click');
@@ -126,9 +141,9 @@ export default {
 				return;
       }
 
-      _this.$http.post('/api/signin',{
+      _this.$http.post('/signin',{
         name: _this.username,
-       password: _this.password
+        password: _this.password
       })
       .then(res => {
         console.log(res);

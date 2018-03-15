@@ -19,10 +19,18 @@ export default {
 @import '~vux/src/styles/reset.less';
 @import './styles/common.less';
 
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 body {
   background-color: #fbf9fe;
 }
 .weui-input{
   height: 100%;
+}
+#app{
+  padding-bottom: 50px;
 }
 </style>

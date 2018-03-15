@@ -6,6 +6,23 @@ const superagent = require('superagent');
 
 //const iconv = new Iconv('GBK', 'UTF-8');
 let baseUrl = 'https://cnodejs.org/';
+
+
+//定义爬取页面的方法
+let getPageContent = (url, next) => {
+  var $;
+  superagent.get(url)
+    .end(function(err, sres){
+      if(err){
+        return next(err);
+      }
+      $ = cheerio.load(sres.text);
+      console.log(cheerio.load(sres.text))
+      return $;
+    })
+
+}
+//获取tab
 router.get('/tabs', function(req, res, next){
   //获取tab
   superagent.get(baseUrl)
@@ -36,7 +53,7 @@ router.get('/tabs', function(req, res, next){
 
 })
 
-router.get('/', function(req, res, next){
+router.get('/list', function(req, res, next){
 
   //获取全部内容
   console.log('req', req.query);
@@ -48,7 +65,7 @@ router.get('/', function(req, res, next){
       url += '?' + i + '=' + req.query[i];
     }
   }
-  console.log(url);
+  //console.log(url);
   superagent.get(url)
     .end(function(err, sres){
       if(err){
@@ -61,9 +78,12 @@ router.get('/', function(req, res, next){
       $('.cell').each(function(index, data){
         let $data = $(data);
         //console.log($data)
+        let detailUrlArray = $data.find('.topic_title').attr('href').split('/');
+        let detailUrl = detailUrlArray[detailUrlArray.length - 1];//详情页地址
         let articleDetail = {
           authorHead: $data.find('.user_avatar img').attr('src'),//作者头像
           updated: $data.find('.last_time .last_active_time').text(),//更新时间
+          detailId: detailUrl,//详情页地址
           title: $data.find('.topic_title').text().replace(/(^\s*)|(\s*$)/g, ""),//文章标题
           ifTop: $data.find('.topic_title_wrapper span').text() == '置顶' ? true : false,//是否置顶
           type: $data.find('.topic_title_wrapper span').text(),//类别
@@ -81,6 +101,36 @@ router.get('/', function(req, res, next){
   // } else{
   //
   // }
+})
+
+//获取文章详情页
+router.get('/detail', function(req, res, next){
+  let detailUrl = baseUrl + 'topic/' + req.query.id;
+
+  superagent.get(url)
+    .end(function(err, sres){
+      if(err){
+        return next(err);
+      }
+      $ = cheerio.load(sres.text);
+      console.log(cheerio.load(sres.text))
+      return $;
+    })
+
+
+  superagent.get(url)
+    .end(function(err, sres){
+      if(err){
+        return next(err);
+      }
+      let $ = cheerio.load(sres.text);
+      let articleDetail = {};
+      articleDetail = {
+        title: $('.topic_full_title'),//标题全称
+        
+      }
+    })
+
 })
 
 

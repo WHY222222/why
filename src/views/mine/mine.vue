@@ -24,8 +24,20 @@
       </p>
   </form>
 
+    <img :src="resImg" alt="">
+
+    <div class="wrapper" style="width: 100px;overflow: hidden;">
+      <p class="child" style="float: left;width: 50px;height: 40px;border: 1px #000 solid;">1234</p>
+      这是什么高价的十分骄傲手机爱神的箭哦啊哈电视剧
+    </div>
 
 
+
+    <div class="trafic-light">
+      <div class="i red"></div>
+      <div class="i orange"></div>
+      <div class="i green"></div>
+    </div>
 
   </div>
 
@@ -37,14 +49,15 @@ export default {
   data () {
     return {
       options: {
-          // 可通过 https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js 示例启动服务
-          //target: '/api/tshow/uploadPic',
-          target: '/api/upload/img',
-          testChunks: false
-        },
-        attrs: {
-          accept: 'image/*'
-        }
+        // 可通过 https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js 示例启动服务
+        //target: '/api/tshow/uploadPic',
+        target: '/upload/img',
+        testChunks: false
+      },
+      attrs: {
+        accept: 'image/*'
+      },
+      resImg: ''
     }
   },
   components: {
@@ -57,13 +70,15 @@ export default {
       params.append('avatar', this.$refs.myImg.files[0]);
       params.append('picName', 'why');
       console.log(myImg);
-      this.$http.post('/api/upload/img',params,{
+      this.$http.post('/upload/img',params,{
         'headers': {
           'Content': 'multipart/form-data'
         }
       })
       .then(res => {
         console.log(res);
+        this.resImg = res.data.avatar;
+        console.log(this.resImg)
       })
       .catch(error => {
         console.log(error);
@@ -74,6 +89,58 @@ export default {
 </script>
 
 <style lang="less" >
+.trafic-light {padding:10px;background-color:#333;border:2px solid #000;width:30px;border-radius:10px;margin: 100px auto;}
+.i {margin:5px 0;height:26px;border:2px solid #000;border-radius:50%;animation-duration:10s;animation-timing:linear;-webkit-animation-iteration-count: infinite;animation-iteration-count: infinite;}
+.red {background-color:#300;animation-name:redlight;}
+.orange {background-color:#430;animation-name:orangelight;}
+.green {background-color:#030;animation-name:greenlight;}
+
+@keyframes redlight {
+  0% {
+    background-color:#f00;
+  }
+  39% {
+    background-color:#f00;
+  }
+  40% {
+    background-color:#300;
+  }
+}
+@keyframes orangelight {
+  0% {
+    background-color:#430;
+  }
+  39% {
+    background-color:#430;
+  }
+  40% {
+    background-color:#fc0;
+  }
+  59% {
+    background-color:#fc0;
+  }
+  60% {
+    background-color:#430;
+  }
+}
+@keyframes greenlight {
+  0% {
+    background-color:#030;
+  }
+  59% {
+    background-color:#030;
+  }
+  60% {
+    background-color:#0a0;
+  }
+  99% {
+    background-color:#0a0;
+  }
+  100% {
+    background-color:#030;
+  }
+}
+
 .mine_wrapper{
   .uploader-example {
     width: 880px;

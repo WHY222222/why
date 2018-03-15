@@ -37,15 +37,36 @@ export default new Router({
       component: resolve => require(['../views/cnode/cnode.vue'], resolve)
     },
     {
-      path: '/chat',
-      name: 'chat',
-      component: resolve => require(['../views/chat/chat.vue'], resolve)
+      path: '/mnode/detail',
+      name: 'mnodeDetail',
+      component: resolve => require(['../views/cnode/cnodeDetail.vue'], resolve)
     },
     {
       path: '/mine',
       name: 'mine',
       component: resolve => require(['../views/mine/mine.vue'], resolve)
     },
+    {
+      path: '/elemeHongbao',
+      name: 'hongbao',
+      component: resolve => require(['../views/eleme/eleme.vue'], resolve)
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: resolve => require(['../views/chat/clientChat.vue'], resolve)
+    },
+    {
+      path: '/serverChat',
+      name: 'serverChat',
+      component: resolve => require(['../views/chat/serverChat.vue'], resolve)
+    },
+    {
+      path: '/chatBroad',
+      name: 'chatBroad',
+      component: resolve => require(['../views/chat/chatBroad.vue'], resolve)
+    }
+
 
 
 

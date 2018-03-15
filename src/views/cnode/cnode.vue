@@ -9,7 +9,7 @@
       </div>
       <scroller height="-30px;" lock-x  ref="articleScroller" @on-scroll="scrollArticleList" @on-scroll-bottom="onScrollBottom">
         <div class="topic_list">
-          <div class="cell" v-for="article in articleList">
+          <div class="cell" v-for="article in articleList" @click="goDetail(article.detailId)">
             <a href="javascript:;" class="user_avatar pull-left">
               <img :src="article.authorHead" alt="">
             </a>
@@ -73,7 +73,7 @@ export default {
   methods: {
     //获取tab列表
     getTab(){
-      this.$http.get('/api/cnodeList/tabs')
+      this.$http.get('/cnode/tabs')
         .then(res => {
           //console.log('cnode tab', res);
           this.tabList = res.data;
@@ -88,7 +88,7 @@ export default {
         tab: this.currentTab,
         pageNumber: this.pageNumber
       };
-      this.$http.get('/api/cnodeList', {params: params})
+      this.$http.get('/cnode/list', {params: params})
         .then(res => {
           //console.log('cnode list', res);
           let data = res.data;
@@ -137,6 +137,10 @@ export default {
     backToTop(){
       this.$refs.articleScroller.reset({top: 0});
       this.ifShowToTop = false;
+    },
+    //跳转详情页
+    goDetail(detailId){
+      this.$router.push({path: '/mnode/detail', query: {detailId: detailId}});
     }
 
   }

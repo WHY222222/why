@@ -10,6 +10,9 @@ const config = require('./server/config/default.js');
 const pkg = require('./package');
 const routes = require('./server/routes');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));

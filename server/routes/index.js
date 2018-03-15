@@ -5,6 +5,9 @@ module.exports = function(app){
 
   app.use('/signup', require('./signup'));
   app.use('/signin', require('./signin'));
-  app.use('/cnodeList', require('./cnodeList'));
+  app.use('/cnode', require('./cnodeList'));
   app.use('/upload', require('./upload'));
+  app.use('/eleme', require('./eleme'));
+  app.use('/train', require('./train/train'));
+  app.use('/translate', require('./translate/translate'));
 }
