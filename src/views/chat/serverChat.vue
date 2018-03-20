@@ -25,6 +25,7 @@
 <script>
 var ws;
 var _this;
+var selfSendMessage = false;
 //var socket;
 import { XDialog, Scroller, XTextarea, Group, Cell, XInput, XButton, cookie, TransferDomDirective as TransferDom } from 'vux'
 
@@ -48,6 +49,8 @@ export default {
     _this = this;
     _this.getMessage();
     _this.getRecord();
+
+    console.log(_this.$socket.id)
     //socket = io('http://localhost');
 
     //_this.getCookie()
@@ -139,7 +142,8 @@ export default {
     getMessage(){
       _this.$socket.on('chat message', function(msg){
         console.log('get message: ' , msg);
-        if(JSON.parse(msg).type == 1){
+        if(JSON.parse(msg).type == 1 && selfSendMessage){
+          selfSendMessage = false;
           return;
         }
         _this.messageList.push(JSON.parse(msg));
@@ -161,6 +165,7 @@ export default {
       _this.messageList.push(messageData);
       _this.myInpMessage = '';
       _this.toBottom();
+      selfSendMessage = true;
 
       // ws.send(JSON.stringify(messageData));
       // _this.messageList.push(messageData);

@@ -8,11 +8,11 @@
 		<group title="注册" class="login_title">
       <!-- <cell title="VUX" value="cool" is-link></cell> -->
       <x-input title="用户名" v-model="username" placeholder="username"></x-input>
-			<x-input title="密码" v-model="password" placeholder="password"></x-input>
-      <x-input title="确认密码" v-model="passwordConfirm" placeholder="password confirm" class="register_password"></x-input>
+			<x-input title="密码" v-model="password" type="password" placeholder="password"></x-input>
+      <x-input title="确认密码" v-model="passwordConfirm" type="password" placeholder="password confirm" class="register_password"></x-input>
       <x-button @click.native="register">注册</x-button>
+      <p class="to_register">已有账号，前往<a @click="goLogin">登录</a></p>
     </group>
-    1
 
 
     <p v-for="text in arr">{{text}}</p>
@@ -21,6 +21,7 @@
 
 <script>
 import { Group, Cell, XInput, XButton, Alert, cookie} from 'vux'
+var _this;
 export default {
 	data() {
 		return {
@@ -37,9 +38,14 @@ export default {
 		XButton,
 		Alert
 	},
+  created(){
+    _this = this;
+  },
 	mouted() {
-		this.register();
-    this.translate();
+    if(cookie.get('token')){
+      _this.$router.push({path: '/chat'});
+    }
+
 	},
 	methods: {
     translate(){
@@ -53,6 +59,10 @@ export default {
         })
 
 
+    },
+    //前往登录
+    goLogin(){
+      _this.$router.push({path: '/login'})
     },
 
 		register() {
@@ -106,56 +116,27 @@ export default {
         .then(res => {
           console.log(res);
           if(res.data.code == "SUCCESS"){
-            this.$router.push({ path: '/login'})
+
+            _this.$http.post('/signin',{
+              name: _this.username,
+              password: _this.password
+            })
+            .then(res => {
+              console.log(res);
+              this.$router.push({ path: '/chat'});
+
+
+            })
+            .catch(res => {
+              console.log(res);
+            })
           }
         })
         .catch(error => {
           console.log(error);
         })
 
-			// if(!cookie.get('user')){
-			// 	cookie.set('user','[]', {
-			// 		domain: '',
-			// 		path: '/',
-			// 		expires: 30
-			// 	})
-			// }
-			// let currentUser = {
-			// 	username: _this.username,
-			// 	password: _this.password
-			// }
-			// let userList = JSON.parse(cookie.get('user'));
-			// for(let i = 0;i < userList.length;i++){
-			// 	if(userList[i].username == _this.username){
-			// 		this.$vux.alert.show({
-			// 		  title: '该用户已经被注册',
-			// 		  content: '请重新输入用户名',
-			// 		  onShow () {
-			// 		    console.log('Plugin: I\'m showing')
-			// 		  },
-			// 		  onHide () {
-			// 		    console.log('Plugin: I\'m hiding')
-			// 		  }
-			// 		})
-			// 		this.username = '';
-			// 		return;
-			// 	}
-			// }
-			// userList.push(currentUser);
-			// cookie.set('user', JSON.stringify(userList), {
-			// 	domain: '',
-			// 	path: '/',
-			// 	expires: 30
-			// })
-			// console.log(cookie.get('user'));
-			// this.username = '';
-			// this.password = '';
-			// this.passwordConfirm = '';
 
-
-
-			// 隐藏
-			//this.$vux.alert.hide()
 		}
 	}
 }
@@ -172,13 +153,22 @@ export default {
   }
   button.weui-btn, input.weui-btn{
     width: auto;
-    margin: 50px auto 200px;
+    margin: 50px auto 20px;
   }
   .register_password{
     border-bottom: 1px solid #D9D9D9;
   }
   .weui-cell__hd{
     width: 80px;
+  }
+  .to_register{
+    text-align: center;
+    a{
+      color: #00F;
+      margin-left: 5px;
+      text-decoration: underline;
+    }
+    margin-bottom: 100px;
   }
 
 }
@@ -190,4 +180,5 @@ export default {
   width: 100px;
   height: 100px
 }
+
 </style>

@@ -3,7 +3,9 @@
   	weather
 		<p>{{weather}}</p>
 		<p>{{recentWeather}}</p>
-
+    {{$store.state.session}}
+    <p>{{session}}</p>
+    <p>{{JSON.stringify($store.state)}}</p>
 
 
 		<group class="user_word_inp_box">
@@ -14,13 +16,16 @@
 </template>
 
 <script>
-import { XTextarea, Group, XButton } from 'vux'
+import { XTextarea, Group, XButton, cookie } from 'vux'
+
+var _this;
 export default {
 	data() {
 		return {
 			weather: '',
 			recentWeather: '',
-			word: ''
+			word: '',
+      session: '',
 		}
 	},
 	components: {
@@ -28,9 +33,24 @@ export default {
     Group,
     XButton
 	},
+  created(){
+    _this = this;
+  },
 	mounted() {
-		this.getWeather();
-		this.getRecentWeather();
+		// this.getWeather();
+		// this.getRecentWeather();
+    _this.$http.get('/signin/checkSession', {
+      params: {
+        token: cookie.get('token')
+      }
+    })
+      .then(res => {
+        console.log('session', res);
+        _this.session = JSON.stringify(res);
+      })
+      .catch(err => {
+        console.log(err)
+      })
 	},
 	methods: {
 		getWeather() {

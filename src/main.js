@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import store from './store'
 import FastClick from 'fastclick'
 import axios from 'axios'
 import VueRouter from 'vue-router'
@@ -15,7 +16,8 @@ import uploader from 'vue-simple-uploader'
 import VueScroller from 'vue-scroller'
 
 import VueSocketio from 'vue-socket.io';
-Vue.use(VueSocketio, 'http://97.64.83.167:3000');
+// Vue.use(VueSocketio, 'http://97.64.83.167:3000');
+// Vue.use(VueSocketio, 'http://localhost:3000');
 
 // vue.use(VueScroller);
 Vue.use(uploader)
@@ -71,5 +73,6 @@ Vue.prototype.$http = axios;
 /* eslint-disable no-new */
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app-box')

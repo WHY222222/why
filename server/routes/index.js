@@ -9,5 +9,6 @@ module.exports = function(app){
   app.use('/upload', require('./upload'));
   app.use('/eleme', require('./eleme'));
   app.use('/train', require('./train/train'));
-  app.use('/translate', require('./translate/translate'));
+  app.use('/socket', require('./socket/messageList'));
+  // app.use('/translate', require('./translate/translate'));
 }

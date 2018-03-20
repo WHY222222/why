@@ -11,9 +11,10 @@ const UserModel = require('../models/users');
 
 
 router.post('/', function(req, res){
-  const name = req.fields.name;
-  const password = req.fields.password;
-  const repassword = req.fields.repassword;
+  const name = req.body.name;
+  const password = req.body.password;
+  console.log(name, password)
+  // const repassword = req.qeury.repassword;
 
   let user = {
     name: name,

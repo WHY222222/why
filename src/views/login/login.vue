@@ -7,8 +7,9 @@
     <group title="登录" class="login_title">
       <!-- <cell title="VUX" value="cool" is-link></cell> -->
       <x-input title="用户名" v-model="username" placeholder="username"></x-input>
-      <x-input title="密码" v-model="password" placeholder="password" class="login_password"></x-input>
+      <x-input title="密码" v-model="password" type="password" placeholder="password" class="login_password"></x-input>
       <x-button @click.native="login">登录</x-button>
+      <p class="to_register">没有账号，前往<a @click="goRegister">注册</a></p>
     </group>
 
 
@@ -23,12 +24,13 @@
       <p style="width: 100%;height: 40px;border:1px #aaa dashed;" ref="tapP">1</p>
       <p style="width: 100%;height: 40px;border:1px #aaa dashed;" ref="tapP">1</p>
     </div> -->
-    <p v-for="text in arr">{{text}}</p>
+    <!-- <p v-for="text in arr">{{text}}</p> -->
   </div>
 </template>
 
 <script>
 import { XDialog, Group, XSwitch, Cell, XInput, XButton, cookie, TransferDomDirective as TransferDom } from 'vux'
+var _this;
 
 export default {
   components: {
@@ -60,12 +62,20 @@ export default {
       arr: []
     }
   },
+  created(){
+    _this = this;
+
+  },
 	mounted() {
     //this.getNode();
     //this.touchEvent();
-    this.translate();
+    // this.translate();
 	},
 	methods: {
+    //跳转登录
+    goRegister(){
+      _this.$router.push({path: '/register'});
+    },
     translate(){
       this.$http.get('/translate')
         .then(res => {
@@ -86,21 +96,6 @@ export default {
       this.$refs.tapP.addEventListener('click', (e) => {
         alert('tap');
       })
-      // this.$refs.scrollItem.addEventListener('touchstart', (e) => {
-      //   console.log('touch start', e);
-      //   this.touchStartPosX = e.touches[0].clientX;
-      //   this.touchStartPosY = e.touches[0].clientY;
-      //   this.startPosX = this.touchLeft;
-      //   this.startPosY = this.touchTop;
-      // })
-      // this.$refs.scrollItem.addEventListener('touchmove', (e) => {
-      //   this.touchTop = this.startPosY + e.touches[0].clientY - this.touchStartPosY;
-      //   this.touchLeft = this.startPosX + e.touches[0].clientX - this.touchStartPosX;
-      //   console.log('touch move')
-      // })
-      // this.$refs.scrollItem.addEventListener('touchend', (e) => {
-      //   console.log('touch end');
-      // })
 
     },
     clickScroll(){
@@ -148,41 +143,27 @@ export default {
       .then(res => {
         console.log(res);
         let data = res.data;
+        if(res.data.user){
+          _this.$router.push({ path: 'lqChat '})
+        } else{
+          this.$vux.alert.show({
+  				  title: '提示',
+  				  content: '登录失败,请检查输入的账号密码是否正确',
+  				  onShow () {
+  				    console.log('Plugin: I\'m showing')
+  				  },
+  				  onHide () {
+  				    console.log('Plugin: I\'m hiding')
+  				  }
+  				})
+  				return;
+        }
+
+
       })
       .catch(res => {
         console.log(res);
       })
-			// let userList = JSON.parse(cookie.get('user'));
-			// for(let i = 0;i < userList.length;i++){
-			// 	if(_this.username == userList[i].username){
-			// 		if(_this.password == userList[i].password){
-			// 			this.$router.push({ path: '/weather', query:{username: _this.username}});
-			// 			return;
-			// 		} else{
-			// 			this.$vux.alert.show({
-			// 			  title: '您输入的密码不正确',
-			// 			  content: '请重新输入密码',
-			// 			  onShow () {
-			// 			    console.log('Plugin: I\'m showing')
-			// 			  },
-			// 			  onHide () {
-			// 			    console.log('Plugin: I\'m hiding')
-			// 			  }
-			// 			})
-			// 			return;
-			// 		}
-			// 	}
-			// }
-			// this.$vux.alert.show({
-			// 	title: '您输入的用户不存在',
-			// 	content: '请重新输入用户名',
-			// 	onShow () {
-			// 		console.log('Plugin: I\'m showing')
-			// 	},
-			// 	onHide () {
-			// 		console.log('Plugin: I\'m hiding')
-			// 	}
-			// })
 
 		},
     getNode() {
@@ -217,13 +198,22 @@ export default {
   }
   button.weui-btn, input.weui-btn{
     width: auto;
-    margin: 50px auto 200px;
+    margin: 50px auto 20px;
   }
   .login_password{
     border-bottom: 1px solid #D9D9D9;
   }
   .weui-cell__hd{
     width: 80px;
+  }
+  .to_register{
+    text-align: center;
+    a{
+      color: #00F;
+      margin-left: 5px;
+      text-decoration: underline;
+    }
+    margin-bottom: 100px;
   }
 
 

@@ -6,7 +6,7 @@
         <img slot="icon-active" src="../assets/images/index_active.png">
         <span slot="label">首页</span>
       </tabbar-item>
-      <tabbar-item :link="{path:'/weather'}" >
+      <tabbar-item :link="{path:'/login'}" >
         <img slot="icon" src="../assets/images/weather.png">
         <img slot="icon-active" src="../assets/images/weather_active.png">
         <span slot="label">天气</span>

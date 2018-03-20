@@ -32,10 +32,22 @@ var selfSendMessage = false;
 //var socket;
 import { XDialog, Scroller, XTextarea, Group, Cell, XInput, XButton, cookie, TransferDomDirective as TransferDom } from 'vux'
 
-//import VueSocketio from 'vue-socket.io';
-//var sockets = VueSocketio.connect('http://localhost:3000');
+// import VueSocketio from 'vue-socket.io';
+const io = require('socket.io-client');
+// const adminSocket = io('http://localhost:3000', {
+//   path: '/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiLmiJEiLCJleHAiOjYwMDAwfQ.ymeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiLmiJEiLCJleHAiOjYwMDAwfQ.ymeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9'
+// });
 
-//import io from 'socket.io-client';
+const adminSocket2 = io('http://localhost:3000',{
+  path: '/why'
+});
+
+// import io from 'socket.io-client';
+// var socket = io('http://localhost', {
+//   path: '/chat'
+// });
+
+
 
 export default {
   data() {
@@ -56,6 +68,7 @@ export default {
   created(){
     _this = this;
     //_this.getMessage();
+
     //_this.getRecord();
     //socket = io('http://localhost');
 
@@ -71,6 +84,9 @@ export default {
       msg: '客户端登录',
       type: '0'
     }
+    // _this.$socket.join('why', function(res){
+    //   console.log('join')
+    // })
     //_this.$socket.close();
     //_this.$socket.open();
     //_this.$socket.emit('chat message', JSON.stringify(loginMessage));//在这里出发connect事件
@@ -83,27 +99,9 @@ export default {
     //_this.$socket.on('disconnect', (reson) => {
     //  _this.getRecord();
     //})
-    console.log(_this.$socket.id)
+    //console.log(_this.$socket.id)
   },
-  sockets: {
-    'chat message': function(msg){
-      console.log(msg);
-    },
-    'connect': function(){ //这里是监听connect事件
-      _this.socketId = this.$socket.id;
-      console.log(_this.socketId);
 
-    },
-    'login': function(val){
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-    },
-    'chat record': function(msgList){
-      var msgListArr = JSON.parse(msgList);
-      for(let i = 0;i < msgListArr.length;i++){
-        _this.messageList.push(JSON.parse(msgListArr[i]));
-      }
-    }
-  },
   methods: {
     //确定昵称
     sureName(){

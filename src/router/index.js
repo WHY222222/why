@@ -54,7 +54,7 @@ export default new Router({
     {
       path: '/chat',
       name: 'chat',
-      component: resolve => require(['../views/chat/clientChat.vue'], resolve)
+      component: resolve => require(['../views/chat/lqChat.vue'], resolve)
     },
     {
       path: '/serverChat',
@@ -65,6 +65,21 @@ export default new Router({
       path: '/chatBroad',
       name: 'chatBroad',
       component: resolve => require(['../views/chat/chatBroad.vue'], resolve)
+    },
+    {
+      path: '/privateChat',
+      name: 'privateChat',
+      component: resolve => require(['../views/chat/privateChat.vue'], resolve)
+    },
+    {
+      path: '/lqChat',
+      name: 'lqChat',
+      component: resolve => require(['../views/chat/lqChat.vue'], resolve)
+    },
+    {
+      path: '/whyChat',
+      name: 'whyChat',
+      component: resolve => require(['../views/chat/whyChat.vue'], resolve)
     }
 
 
