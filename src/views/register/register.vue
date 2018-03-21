@@ -116,24 +116,31 @@ export default {
         .then(res => {
           console.log(res);
           if(res.data.code == "SUCCESS"){
-
-            _this.$http.post('/signin',{
-              name: _this.username,
-              password: _this.password
+            this.$vux.toast.show({
+             text: '恭喜您注册成功',
+             onHide(){
+               _this.$router.push({ path: 'login'});
+             }
             })
-            .then(res => {
-              console.log(res);
-              this.$router.push({ path: '/chat'});
 
 
+          } else{
+            this.$vux.alert.show({
+              title: '提示',
+              content: '您所输入的用户名已经被注册',
+              onShow () {
+                console.log('Plugin: I\'m showing')
+              },
+              onHide () {
+                console.log('Plugin: I\'m hiding')
+              }
             })
-            .catch(res => {
-              console.log(res);
-            })
+            return;
           }
         })
         .catch(error => {
           console.log(error);
+
         })
 
 

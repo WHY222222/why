@@ -1,18 +1,10 @@
 <template lang="html">
   <div class="chat_wrapper">
-    <!--<h1 class="chat_title">Chat</h1>-->
-    <!-- 用户列表 -->
-    <!-- <div class="user_list" v-show="!chatOpen">
-      <div class="user_item" v-for="(userItem, index) in userList" @click="selectUserChat(index)">
-        <img src="../../assets/images/server-head.jpg" alt="" class="user_head">
-        <p class="user_name">{{userItem.userName}}</p>
-        <span class="message_num">70</span>
-      </div>
-    </div> -->
+
 
     <!-- 聊天窗口 -->
-    <div class="" v-show="chatOpen">
-      <div class="chat_top">
+    <div class="">
+      <div class="chat_top"  @click="returnLogin">
         <a href="javascript:;" class="chat_return_btn"><span><</span>返回</a>
         <p class="chat_user_name">{{userName}}</p>
       </div>
@@ -93,7 +85,7 @@ export default {
     // const adminSocket = io('http://localhost:3000')
   },
   mounted(){
-    var windowHeight = window.outerHeight;
+    var windowHeight = window.innerHeight;
     var chatBox = _this.$refs.chatBox;
     console.log(chatBox);
     chatBox.style.height = (windowHeight - 100) + 'px';
@@ -106,6 +98,10 @@ export default {
   },
 
   methods: {
+    //返回登录
+    returnLogin(){
+      _this.$router.push({path: '/login'});
+    },
     //选择用户打开聊天窗口
     selectUserChat(index){
       _this.messageList = _this.allUserMessageList[index];
@@ -229,7 +225,7 @@ export default {
     },
     //获取时间
     getTime(){
-      
+
     },
   }
 }

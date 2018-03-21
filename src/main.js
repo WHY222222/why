@@ -25,8 +25,9 @@ Vue.use(uploader)
 // import VueSocketio from 'vue-socket.io'
 
 
-import { AlertPlugin} from 'vux'
+import { AlertPlugin, ToastPlugin } from 'vux'
 Vue.use(AlertPlugin)
+Vue.use(ToastPlugin)
 import { cookie } from 'vux'
 // Vue.use(cookie)
 

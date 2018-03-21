@@ -11,11 +11,11 @@ const UserModel = require('../models/users');
 
 
 // POST /signin 用户登录
-router.post('/', function(req, res){
+router.get('/', function(req, res){
   console.log(req.query, req.fields, req.params, req.body)
 
-  const name = req.body.name;
-  const password = req.body.password;
+  const name = req.query.name;
+  const password = req.query.password;
   UserModel.getUserByName(name)
     .then(function (user){
       console.log(user);
@@ -43,7 +43,8 @@ router.post('/', function(req, res){
       res.cookie('token', token, {maxAge: expires});
       res.send({
         user: user,
-        data: '欢迎登录'
+        data: '欢迎登录',
+        code: 'SUCCESS'
       })
     })
     .catch(e => {

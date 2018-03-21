@@ -35,17 +35,16 @@ router.post('/', function(req, res){
         code: 'SUCCESS',
         user: user
       })
-      .catch(function(e){
-        res.send(e);
-        if(e.message.match('duplicate key')){
-          //req.flash('error', '用户名已被占用');
-          console.log('注册失败')
-          res.send({
-            data: '注册失败',
-            result: '用户名已经被注册'
-          })
-        }
+
+    })
+    .catch(function(e){
+
+      console.log('注册失败', e)
+      res.send({
+        data: '注册失败',
+        result: '用户名已经被注册'
       })
+
     })
 })
 

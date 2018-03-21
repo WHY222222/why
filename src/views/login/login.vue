@@ -135,16 +135,22 @@ export default {
 				})
 				return;
       }
-
-      _this.$http.post('/signin',{
+      let params = {
         name: _this.username,
         password: _this.password
-      })
+      }
+      _this.$http.get('/signin',{params: params})
       .then(res => {
         console.log(res);
         let data = res.data;
         if(res.data.user){
-          _this.$router.push({ path: 'lqChat '})
+          this.$vux.toast.show({
+           text: '登录成功',
+           onHide(){
+             _this.$router.push({ path: 'chat'});
+           }
+          })
+
         } else{
           this.$vux.alert.show({
   				  title: '提示',

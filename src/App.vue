@@ -21,6 +21,8 @@ export default {
       //_this.$router.push({ path: '/chat'});
 
     } else{
+      console.log(_this.$router.path('register'))
+      return;
       this.$vux.alert.show({
         title: '提示',
         content: '请先登录',

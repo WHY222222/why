@@ -10,7 +10,7 @@
       <div class="user_item" v-for="(userItem, index) in userList" @click="selectUserChat(index)">
         <img src="../../assets/images/server-head.jpg" alt="" class="user_head">
         <p class="user_name">{{userItem.name}}</p>
-        <span class="message_num">70</span>
+        <!-- <span class="message_num">70</span> -->
       </div>
     </div>
 
@@ -34,7 +34,7 @@
 
       </div>
       <group class="operation_wrapper">
-        <x-textarea class="wait_send_message" title="" v-model="myInpMessage"></x-textarea>
+        <x-textarea class="wait_send_message" title="" v-model="myInpMessage" ref="sendInput" @on-focus="onFocus"></x-textarea>
         <x-button class="send_btn" @click.native="sendMessage">发送</x-button>
       </group>
     </div>
@@ -102,10 +102,10 @@ export default {
     // const adminSocket = io('http://localhost:3000')
   },
   mounted(){
-    var windowHeight = window.outerHeight;
+    var windowHeight = window.innerHeight;
     var chatBox = document.getElementById('chatBox');
     chatBox.style.height = (windowHeight - 100) + 'px';
-
+    console.log(windowHeight, chatBox.style.height)
     let loginMessage = {
       msg: '客户端登录',
       type: '0'
@@ -116,12 +116,26 @@ export default {
   },
 
   methods: {
+    //输入框选中
+    onFocus(){
+      // var sendInput = _this.$refs.sendInput;
+      // setTimeout(function(){
+      //   window.scrollTop = chatBox.scrollHeight;
+      // }, 20)
+    },
+    //返回登录
+    returnUserList(){
+      _this.$router.push({path: '/login'});
+    },
     //获取用户
     getUserList(){
       _this.$http.get('/signin/allUser')
         .then(res => {
           console.log('用户列表', res);
           _this.userList = JSON.parse(JSON.stringify(res.data.data));
+          for(let i = 0;i < _this.userList.length;i++){
+            whySocket.push('');
+          }
         })
     },
     //返回用户列表
@@ -137,6 +151,7 @@ export default {
       _this.userName = _this.userList[index].name;
       let token = _this.userList[index].token;
       _this.getUserMessageList(token);
+      _this.userIndex = index;
     },
     //获取用户聊天记录
     getUserMessageList(token){
@@ -164,12 +179,13 @@ export default {
     },
     //确定登录状态
     getLoginStatus(token){
-      if(whySocket[_this.userIndex]){
-        return;
-      }
+      // if(whySocket[_this.userIndex]){
+      //   return;
+      // }
       whySocket[_this.userIndex] = io('http://97.64.83.167:3000', {
         path: '/' + token
       });
+      console.log(whySocket)
       _this.getMessage();
       // let params =  {
       //   token: cookie.get('token')
@@ -271,6 +287,7 @@ export default {
     top: 0;
     z-index: 200;
     background: #FFF;
+    overflow: auto;
     .user_item{
       width: 100%;
       height: 80px;
@@ -310,9 +327,12 @@ export default {
     text-align: center;
     position: relative;
     border-bottom: 1px #666 solid;
+    background: #282C34;
+    color: #FFF;
     .chat_return_btn{
       float: left;
       margin-left: 15px;
+      color: #FFF;
       // span{
       //   font-size: 24px;
       // }
@@ -369,6 +389,9 @@ export default {
   .operation_wrapper{
     height: 40px;
     overflow: hidden;
+    // position: fixed;
+    // left: 0;
+    // bottom: 0;
     .weui-cells{
       margin-top: 0;
     }
